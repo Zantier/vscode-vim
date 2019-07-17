@@ -263,8 +263,9 @@ export class EasyMotion {
           font-family: ${configuration.easymotionMarkerFontFamily};
           font-size: ${configuration.easymotionMarkerFontSize}px;
           font-weight: ${configuration.easymotionMarkerFontWeight};
-          position: absolute;
+          position: relative;
           z-index: 99;
+          left: 8px;
           bottom: ${configuration.easymotionMarkerYOffset}px`,
         },
       };
