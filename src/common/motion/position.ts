@@ -207,12 +207,13 @@ declare module 'vscode' {
     getLineBeginRespectingIndent(document: vscode.TextDocument): Position;
 
     /**
-     * @returns a new Position at the end of this position's line.
+     * @returns a new Position at the end of this position's line, after the last non-newline character.
      */
     getLineEnd(): Position;
 
     /**
-     * @returns a new Position at the end of this Position's line, including the invisible newline character.
+     * @returns a new Position at the end of this Position's line, after the newline character. On the last line
+     * there is no newline character, but pretend there is, i.e. return 2 after the last character.
      */
     getLineEndIncludingEOL(): Position;
 
@@ -232,7 +233,7 @@ declare module 'vscode' {
     isLineBeginning(): boolean;
 
     /**
-     * Is this position at the end of the line?
+     * Is this position at the end of the line? i.e. after the last non-newline character
      */
     isLineEnd(): boolean;
 
@@ -471,17 +472,17 @@ Position.prototype.getLineBeginRespectingIndent = function (
 };
 
 /**
- * @returns a new Position at the end of this position's line.
+ * @returns a new Position at the end of this position's line, after the last non-newline character.
  */
 Position.prototype.getLineEnd = function (this: Position): Position {
   return new Position(this.line, TextEditor.getLineLength(this.line));
 };
 
 /**
- * @returns a new Position at the end of this Position's line, including the invisible newline character.
+ * @returns a new Position at the end of this Position's line, after the newline character. On the last line
+ * there is no newline character, but pretend there is, i.e. return 2 after the last character.
  */
 Position.prototype.getLineEndIncludingEOL = function (this: Position): Position {
-  // TODO: isn't this one too far?
   return new Position(this.line, TextEditor.getLineLength(this.line) + 1);
 };
 
@@ -521,7 +522,7 @@ Position.prototype.isLineBeginning = function (this: Position): boolean {
 };
 
 /**
- * Is this position at the end of the line?
+ * Is this position at the end of the line? i.e. after the last non-newline character
  */
 Position.prototype.isLineEnd = function (this: Position): boolean {
   return this.character >= TextEditor.getLineLength(this.line);

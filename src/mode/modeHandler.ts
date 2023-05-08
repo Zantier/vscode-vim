@@ -733,6 +733,10 @@ export class ModeHandler implements vscode.Disposable, IModeHandler {
 
     if (action instanceof BaseMovement) {
       recordedState = await this.executeMovement(action);
+      vscode.window.showInformationMessage(this.vimState.cursors.toString());
+      vscode.window.showInformationMessage('End: ' + this.vimState.cursors[0].start.getLineEnd().toString());
+      vscode.window.showInformationMessage('End EOL: ' + this.vimState.cursors[0].start.getLineEndIncludingEOL().toString());
+
       ranAction = true;
     } else if (action instanceof BaseCommand) {
       await action.execCount(this.vimState.cursorStopPosition, this.vimState);
@@ -975,6 +979,7 @@ export class ModeHandler implements vscode.Disposable, IModeHandler {
         this.vimState,
         recordedState.count
       );
+
 
       // We also need to update the specific cursor, in case the cursor position was modified inside
       // the handling functions (e.g. 'it')
